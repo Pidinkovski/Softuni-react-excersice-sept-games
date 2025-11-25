@@ -21,7 +21,7 @@ export default function CardDetails() {
         getGameDetails()
     }, [id])
 
-    async function deleteClickHandler(e) {
+     function deleteClickHandler(e ) {
         e.preventDefault()
         const result = confirm(`Would  you like to delete ${game.title}`);
 

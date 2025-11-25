@@ -5,6 +5,7 @@ import Footer from "./components/footer/Footer"
 import Home from "./components/home/Home"
 import Catalog from "./components/catalog/Catalog"
 import CardDetails from "./components/card-details/CardDetails"
+import Create from "./components/create/Create"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/games" element={<Catalog/>} />
       <Route path="/games/:id/details" element={<CardDetails />} />
+      <Route path="/create" element={<Create/>} />
     </Routes>
 
     <Footer />
