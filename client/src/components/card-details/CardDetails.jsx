@@ -1,27 +1,46 @@
-import { useEffect , useState} from "react"
-import { Link, useParams } from "react-router"
+import { useEffect, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router"
 
 export default function CardDetails() {
-    const {id} = useParams()
+    const { id } = useParams()
+    const navigate = useNavigate()
 
-    const [game , setGame] = useState({})
-    
+    const [game, setGame] = useState({})
+
     useEffect(() => {
         async function getGameDetails() {
             try {
                 const response = await fetch(`http://localhost:3030/jsonstore/games/${id}`);
-                const data = await response.json()    
+                const data = await response.json()
                 setGame(data)
 
-            }catch(err) {
+            } catch (err) {
                 alert(err.message)
             }
         }
         getGameDetails()
-    } , [id])
+    }, [id])
 
+    async function deleteClickHandler(e) {
+        e.preventDefault()
+        const result = confirm(`Would  you like to delete ${game.title}`);
+
+        if(!result) {
+            return;
+        }
+
+        try {
+            fetch(`http://localhost:3030/jsonstore/games/${id}` , {
+                method : "DELETE"
+            });
+            navigate('/')
+
+        } catch(err) {
+            alert('Count not delete' , err.message)
+        }
+    }
     return (
-        
+
         <section id="game-details">
             <h1>Game Details</h1>
             <div className="info-section">
@@ -50,7 +69,7 @@ export default function CardDetails() {
                     <div className="summary-section">
                         <h2>Summary:</h2>
                         <p className="text-summary">
-                         {game.summary}
+                            {game.summary}
                         </p>
                     </div>
                 </div>
@@ -59,7 +78,8 @@ export default function CardDetails() {
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
                 <div className="buttons">
                     <Link to={`/games/${id}/edit`} className="button">Edit</Link>
-                    <Link to={`/games/${id}/delete`} className="button">Delete</Link>
+                    {/* <Link to={`/games/${id}/delete`} className="button">Delete</Link> */}
+                    <button onClick={deleteClickHandler} className="button">Delete</button>
                 </div>
 
                 <div className="details-comments">
@@ -82,7 +102,7 @@ export default function CardDetails() {
                 <label>Add new comment:</label>
                 <form className="form">
                     <textarea name="comment" placeholder="Comment......"></textarea>
-                    <input className="btn submit" type="submit" value="Add Comment"/>
+                    <input className="btn submit" type="submit" value="Add Comment" />
                 </form>
             </article>
         </section>
