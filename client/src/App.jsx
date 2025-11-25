@@ -1,11 +1,21 @@
+import { Route, Routes } from "react-router"
+
 import Header from "./components/header/Header"
+import Footer from "./components/footer/Footer"
+import Home from "./components/home/Home"
 
 function App() {
 
   return (
     <>
     <Header />
-    <h1> It work</h1>
+
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+    </Routes>
+    
+    <Footer />
+
     </>
   )
 }
