@@ -1,6 +1,6 @@
 import { useEffect , useState } from "react";
-import GameCard from "../game-card/GameCard";
 
+import GameCard from "../game-card/GameCard";
 import objectIdTranform from "../../utils/objectIdTransform.js";
 
 export default function Catalog() {

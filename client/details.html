@@ -1,62 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/style.css">
-    <title>I Love Game</title>
-</head>
-
-<body>
-
-
-        <header>
-            <!-- Navigation -->
-            <nav>
-                <a class="home" href="#"> <img src="./images/logo.png" alt="logo"> </a>
-                <a href="#">Catalog</a>
-                <!-- Logged-in users -->
-                <div id="user">
-                    <a href="#">Add Game</a>
-                    <a href="#">Logout</a>
-                </div>
-                <!-- Guest users -->
-                <div id="guest">
-                    <a href="#">Login</a>
-                    <a href="#">Register</a>
-                </div>
-            </nav>
-        </header>
-
+>
  <section id="game-details">
     <h1>Game Details</h1>
-    <div class="info-section">
+    <div className="info-section">
 
-        <div class="header-and-image">
-            <img class="game-img" src="images/elden ring.png" alt="Elden Ring Cover Art" />
+        <div className="header-and-image">
+            <img className="game-img" src="images/elden ring.png" alt="Elden Ring Cover Art" />
             
-            <div class="meta-info">
-                <h1 class="game-name">Elden Ring</h1>
+            <div className="meta-info">
+                <h1 className="game-name">Elden Ring</h1>
                 
-                <p class="data-row">
-                    <span class="label">Genre:</span>
-                    <span class="value">Action RPG</span>
+                <p className="data-row">
+                    <span className="label">Genre:</span>
+                    <span className="value">Action RPG</span>
                 </p>
 
-                <p class="data-row">
-                    <span class="label">Active Players:</span>
-                    <span class="value">100000</span>
+                <p className="data-row">
+                    <span className="label">Active Players:</span>
+                    <span className="value">100000</span>
                 </p>
 
-                <p class="data-row">
-                    <span class="label">Release Date:</span>
-                    <span class="value">2022-02-25</span>
+                <p className="data-row">
+                    <span className="label">Release Date:</span>
+                    <span className="value">2022-02-25</span>
                 </p>
             </div>
-            <div class="summary-section">
+            <div className="summary-section">
             <h2>Summary:</h2>
-            <p class="text-summary">
+            <p className="text-summary">
                 Elden Ring is a fantasy action RPG developed by FromSoftware and Bandai Namco. Set in the Lands Between, 
                 players embark on an epic quest to become the Elden Lord, exploring a vast open world designed by Hidetaka Miyazaki, 
                 with worldbuilding contributed by fantasy author George R. R. Martin. The game features challenging combat, 
@@ -67,38 +37,32 @@
 
         
          <!-- Edit/Delete buttons ( Only for creator of this game )  -->
-        <div class="buttons">
-            <a href="#" class="button">Edit</a>
-            <a href="#" class="button">Delete</a>
+        <div className="buttons">
+            <a href="#" className="button">Edit</a>
+            <a href="#" className="button">Delete</a>
         </div>
         
-        <div class="details-comments">
+        <div className="details-comments">
             <h2>Comments:</h2>
             <ul>
-                <li class="comment">
+                <li className="comment">
                     <p>Content: A masterpiece of world design, though the boss fights are brutal.</p>
                 </li>
-                <li class="comment">
+                <li className="comment">
                     <p>Content: Truly feels like a next-gen evolution of the Souls formula!</p>
                 </li>
             </ul>
               <!-- Display paragraph: If there are no games in the database -->
-                    <!-- <p class="no-comment">No comments.</p> -->
+                    <!-- <p className="no-comment">No comments.</p> -->
         </div>
 
     </div>
  <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) -->
-    <article class="create-comment">
+    <article className="create-comment">
         <label>Add new comment:</label>
-        <form class="form">
+        <form className="form">
             <textarea name="comment" placeholder="Comment......"></textarea>
-            <input class="btn submit" type="submit" value="Add Comment">
+            <input className="btn submit" type="submit" value="Add Comment">
         </form>
     </article>
 </section>
-        <footer>
-            <p class="center-text">React Course Exercise @ SoftUni &trade;</p>
-        </footer>
-</body>
-
-</html>
