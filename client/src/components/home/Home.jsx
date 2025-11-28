@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 import GameCard from "../game-card/GameCard"
 import objectIdTranform from '../../utils/objectIdTransform.js'
+import requester from "../../utils/requester.js"
 
 export default function Home() {
 
@@ -9,10 +10,9 @@ export default function Home() {
 
     useEffect(  () => {
         async function fetchData() {
-        const response = await fetch('http://localhost:3030/jsonstore/games');
-        const data = await response.json()
+        const data = await requester('http://localhost:3030/jsonstore/games');
             const dataArray = objectIdTranform(data).sort((a , b ) => b._createdOn - a._createdOn)
-            .slice(0,3)
+            .slice(0,3) ;
             setLastGames(dataArray)}
             fetchData()
         } , [])

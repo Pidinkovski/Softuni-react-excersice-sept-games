@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
+import requester from "../../utils/requester.js"
 
 export default function CardDetails() {
     const { id } = useParams()
@@ -10,8 +11,7 @@ export default function CardDetails() {
     useEffect(() => {
         async function getGameDetails() {
             try {
-                const response = await fetch(`http://localhost:3030/jsonstore/games/${id}`);
-                const data = await response.json()
+                const data = await requester(`http://localhost:3030/jsonstore/games/${id}`);
                 setGame(data)
 
             } catch (err) {
@@ -21,7 +21,7 @@ export default function CardDetails() {
         getGameDetails()
     }, [id])
 
-     function deleteClickHandler(e ) {
+     async function deleteClickHandler(e ) {
         e.preventDefault()
         const result = confirm(`Would  you like to delete ${game.title}`);
 
@@ -30,9 +30,7 @@ export default function CardDetails() {
         }
 
         try {
-            fetch(`http://localhost:3030/jsonstore/games/${id}` , {
-                method : "DELETE"
-            });
+           await requester(`http://localhost:3030/jsonstore/games/${id}`, 'Delete')
             navigate('/')
 
         } catch(err) {

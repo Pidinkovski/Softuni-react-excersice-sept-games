@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
 
+import requester from "../../utils/requester.js"
+
 export default function Create() {
 
     const navigate = useNavigate()
@@ -13,13 +15,7 @@ export default function Create() {
         data.players = Number(data.players)
        
         try {
-            const response = await fetch('http://localhost:3030/jsonstore/games', {
-                method : 'POST' ,
-                headers : {
-                    'content-type' : 'application/json'
-                },
-                body : JSON.stringify(data)
-            });
+            const response = await requester('http://localhost:3030/jsonstore/games', 'POST' , data);
             navigate('/games')
         } catch(err) {
             alert('Theres an error with the creating' , err.message)

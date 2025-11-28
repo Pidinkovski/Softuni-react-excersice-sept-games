@@ -1,20 +1,24 @@
-import { useEffect , useState } from "react";
+import { useEffect, useState } from "react";
 
 import GameCard from "../game-card/GameCard";
 import objectIdTranform from "../../utils/objectIdTransform.js";
+import requester from "../../utils/requester.js"
 
 export default function Catalog() {
 
-    const [games , setGames] = useState([])
+    const [games, setGames] = useState([])
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://localhost:3030/jsonstore/games');
-            const result = await response.json()
+            try {
+                const result = await requester('http://localhost:3030/jsonstore/games');
 
-            const dataArray = objectIdTranform(result)
-            setGames(dataArray)
-
+                const dataArray = objectIdTranform(result)
+                setGames(dataArray)
+            }catch(err) {
+                alert(err.message)
+            }
+   
         }
         fetchData()
     }, [])
@@ -24,9 +28,9 @@ export default function Catalog() {
         <section id="catalog-page">
             <h1>Catalog</h1>
             <div className="catalog-container">
-            {games.length > 0 
-            ? games.map((game) => <GameCard key={game.id} {...game}/>)
-            : <h3 className="no-articles">No Added Games Yet</h3>}
+                {games.length > 0
+                    ? games.map((game) => <GameCard key={game.id} {...game} />)
+                    : <h3 className="no-articles">No Added Games Yet</h3>}
             </div>
         </section>
 
