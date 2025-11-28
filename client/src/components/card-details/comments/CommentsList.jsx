@@ -1,17 +1,36 @@
-export default function CommentsList() {
+import { useEffect , useState } from "react";
+import requester from "../../../utils/requester.js";
+import { useParams } from "react-router";
+
+export default function CommentsList({
+    refresh
+}) {
+    const {id} = useParams()
+    const [comments , setComments] = useState([]);
+
+    useEffect(() => {
+        async function getComments() {
+            try{
+            const allcoments = await requester(`http://localhost:3030/jsonstore/games/${id}/comments`);
+            setComments(allcoments ? Object.values(allcoments) : [])
+            }catch(err) {
+                alert(err.message)
+            }
+            
+            
+        }
+        getComments()
+    } ,[id , refresh])
     return (
+
         <div className="details-comments">
             <h2>Comments:</h2>
             <ul>
-                <li className="comment">
-                    <p>Content: A masterpiece of world design, though the boss fights are brutal.</p>
-                </li>
-                <li className="comment">
-                    <p>Content: Truly feels like a next-gen evolution of the Souls formula!</p>
-                </li>
+               {comments.map(coment => <li key={coment._id}className="comment">
+                    <p>{coment.email}: {coment.context}!</p>
+                </li>)}
+                {comments.length === 0 &&  <p className="no-comment">No comments.</p>} 
             </ul>
-            {/* <!-- Display paragraph: If there are no games in the database -->
-                    <!-- <p className="no-comment">No comments.</p> --> */}
         </div>
     )
 }

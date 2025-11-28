@@ -11,6 +11,11 @@ export default function CardDetails({
     const navigate = useNavigate()
 
     const [game, setGame] = useState({})
+    const [refresh , setRefresh] = useState(false)
+
+    const forceRefresh = () => {
+        setRefresh(state => !state)
+    }
 
     useEffect(() => {
         async function getGameDetails() {
@@ -23,7 +28,7 @@ export default function CardDetails({
             }
         }
         getGameDetails()
-    }, [id])
+    }, [id , refresh])
 
      async function deleteClickHandler(e ) {
         e.preventDefault()
@@ -84,11 +89,11 @@ export default function CardDetails({
                     <button onClick={deleteClickHandler} className="button">Delete</button>
                 </div>
 
-            <CommentsList />
+            <CommentsList refresh={refresh} />
 
             </div>
-            {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-            <CreateComment />
+            {user &&  <CreateComment  user={user} forceRef= {forceRefresh}/>}
+           
         </section>
 
     )

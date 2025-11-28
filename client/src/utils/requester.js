@@ -1,5 +1,5 @@
 export default async function requester(url, method = 'GET', data) {
-    
+
     const options = {
         method,
         headers: {}
@@ -15,6 +15,9 @@ export default async function requester(url, method = 'GET', data) {
     if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Request failed');
+    }
+    if (response.status === 204) {
+        return null;
     }
 
     return response.json();
