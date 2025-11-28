@@ -1,5 +1,7 @@
 import { Link } from "react-router"
-export default function Header() {
+export default function Header({
+    user
+}) {
     return (
         <header>
             <nav>
@@ -10,11 +12,12 @@ export default function Header() {
                     <Link to="/create">Add Game</Link>
                     <Link to="/logout">Logout</Link>
                 </div>
-                {/* <!-- Guest users --> */}
+                {!user && 
                 <div id="guest">
                     <Link to="/login">Login</Link>
                     <Link to="/register">Register</Link>
-                </div>
+                </div>}
+                
             </nav>
         </header>
 

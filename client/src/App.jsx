@@ -9,10 +9,12 @@ import CardDetails from "./components/card-details/CardDetails"
 import Create from "./components/create/Create"
 import Register from "./components/register/Register"
 import Login from "./components/login/Login"
+import Logout from "./components/logout/Logout"
 
 
 function App() {
   const  [registeredUsers , setRegisteredUsers] = useState([])
+  const [user , setUser] = useState(null)
 
   function onRegisterHandler({email , password}) {
     const newUser = {email , password}
@@ -22,9 +24,17 @@ function App() {
     ]))
   }
 
+  function onLoginHandler({email}) {
+    setUser({email})
+  }
+
+  function onLogout() {
+    setUser(null)
+  }
+
   return (
     <>
-    <Header />
+    <Header user={user} />
 
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -32,7 +42,8 @@ function App() {
       <Route path="/games/:id/details" element={<CardDetails />} />
       <Route path="/create" element={<Create/>} />
       <Route path="/register" element={<Register  onRegister={onRegisterHandler}/>} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login onLogin = {onLoginHandler} registeredUsers={registeredUsers}/>} />
+      <Route path="/logout" element={<Logout onLogout={onLogout} />} />
     </Routes>
 
     <Footer />
