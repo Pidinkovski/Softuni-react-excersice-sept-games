@@ -43,7 +43,7 @@ function App() {
       <Route path="/games/:id/details" element={<CardDetails />} />
       <Route path="/games/:id/edit" element={<Edit />} />
       <Route path="/create" element={<Create/>} />
-      <Route path="/register" element={<Register  onRegister={onRegisterHandler}/>} />
+      <Route path="/register" element={<Register autoLogin={onLoginHandler} onRegister={onRegisterHandler}/>} />
       <Route path="/login" element={<Login onLogin = {onLoginHandler} registeredUsers={registeredUsers}/>} />
       <Route path="/logout" element={<Logout onLogout={onLogout} />} />
     </Routes>

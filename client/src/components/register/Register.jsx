@@ -8,7 +8,8 @@ const initialValues = {
     rePass : ""
 }
 export default function Register({
-    onRegister
+    onRegister,
+    autoLogin
 }) {
     const navigate = useNavigate()
     const [data , setData] = useState(initialValues);
@@ -38,6 +39,7 @@ export default function Register({
         }
         
         onRegister(newUser)
+        autoLogin(newUser)
         navigate('/')
         
     }
