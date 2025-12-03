@@ -35,9 +35,6 @@ function App() {
   }
 
   async function onLogout(currentUser) {
-    console.log(currentUser);
-    console.log(currentUser.accessToken);
-    
     await request('http://localhost:3030/users/logout','GET', {} , currentUser)
     setUser(null)
   }
