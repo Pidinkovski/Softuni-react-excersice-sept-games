@@ -1,5 +1,6 @@
-import {useState} from  'react'
+
 import { useNavigate } from 'react-router';
+import useForm from '../../hooks/useForm';
 
 
 const initialValues = {
@@ -7,20 +8,20 @@ const initialValues = {
     password : "",
     rePass : ""
 }
+
 export default function Register({
     onRegister,
     autoLogin
 }) {
     const navigate = useNavigate()
-    const [data , setData] = useState(initialValues);
 
-    const dataSetterHandler = (e) => {
-        setData(state => ({
-            ...state,
-            [e.target.name] : e.target.value
-        }));
-    }
-    function onClickRegister() {
+    const {
+        data,
+        formAction ,
+        dataSetterHandler
+    } = useForm(onClickRegister , initialValues);
+
+    function onClickRegister(data) {
         if(!data.email || !data.password || !data.rePass) {
             return alert('All the field are required')
         }
@@ -47,7 +48,7 @@ export default function Register({
     return (
 
         <section id="register-page" className="content auth">
-            <form id="register" action={onClickRegister}>
+            <form id="register" action={formAction}>
                 <div className="container">
                     <div className="brand-logo"></div>
                     <h1>Register</h1>
