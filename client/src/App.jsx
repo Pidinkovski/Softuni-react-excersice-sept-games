@@ -16,7 +16,7 @@ import useRequest from "./hooks/useRequest"
 
 
 function App() {
-  const [user , setUser] = useState({})
+  const [user , setUser] = useState(null)
   const { request } = useRequest()
 
   async function onRegisterHandler({email , password}) {
@@ -34,7 +34,11 @@ function App() {
      setUser(result)
   }
 
-  function onLogout() {
+  async function onLogout(currentUser) {
+    console.log(currentUser);
+    console.log(currentUser.accessToken);
+    
+    await request('http://localhost:3030/users/logout','GET', {} , currentUser)
     setUser(null)
   }
   const contextValues = {
@@ -47,7 +51,7 @@ function App() {
 
   return (
     <UserContext.Provider value={contextValues}>
-    <Header user={user} />
+    <Header/>
 
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -57,7 +61,7 @@ function App() {
       <Route path="/create" element={<Create/>} />
       <Route path="/register" element={<Register/>} />
       <Route path="/login" element={<Login />} />
-      <Route path="/logout" element={<Logout onLogout={onLogout} />} />
+      <Route path="/logout" element={<Logout/>} />
     </Routes>
 
     <Footer />
