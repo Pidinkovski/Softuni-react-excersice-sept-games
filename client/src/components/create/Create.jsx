@@ -21,14 +21,17 @@ export default function Create() {
         summary: ''
     })
 
-    async function createGameHandler() {
-
+    async function createGameHandler(data) {
+        if(!data.title || !data.genre || !data.date || !data.summary || !data.players) {
+            return alert('All field are required')
+        } 
         data.players = Number(data.players)
 
         try {
             const response = await request('http://localhost:3030/data/games', 'POST', data , user);
-            navigate('/games')
             
+            navigate('/games')
+
         } catch (err) {
             alert('Theres an error with the creating', err.message)
         }
