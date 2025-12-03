@@ -11,18 +11,16 @@ import Register from "./components/register/Register"
 import Login from "./components/login/Login"
 import Logout from "./components/logout/Logout"
 import Edit from "./components/edit/Edit"
+import requester from "./utils/requester"
 
 
 function App() {
-  const  [registeredUsers , setRegisteredUsers] = useState([])
   const [user , setUser] = useState(null)
 
-  function onRegisterHandler({email , password}) {
+  async function onRegisterHandler({email , password}) {
     const newUser = {email , password}
-    setRegisteredUsers(state => ([
-      ...state ,
-      newUser
-    ]))
+      const result = await requester('http://localhost:3030/users/register' , 'POST' , newUser)
+      setUser(result)
   }
 
   function onLoginHandler({email}) {
@@ -43,8 +41,8 @@ function App() {
       <Route path="/games/:id/details" element={<CardDetails user={user}/>} />
       <Route path="/games/:id/edit" element={<Edit />} />
       <Route path="/create" element={<Create/>} />
-      <Route path="/register" element={<Register autoLogin={onLoginHandler} onRegister={onRegisterHandler}/>} />
-      <Route path="/login" element={<Login onLogin = {onLoginHandler} registeredUsers={registeredUsers}/>} />
+      <Route path="/register" element={<Register onRegister={onRegisterHandler}/>} />
+      <Route path="/login" element={<Login onLogin = {onLoginHandler}/>} />
       <Route path="/logout" element={<Logout onLogout={onLogout} />} />
     </Routes>
 

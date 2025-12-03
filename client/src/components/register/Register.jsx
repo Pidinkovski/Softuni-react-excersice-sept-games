@@ -11,7 +11,6 @@ const initialValues = {
 
 export default function Register({
     onRegister,
-    autoLogin
 }) {
     const navigate = useNavigate()
 
@@ -40,7 +39,6 @@ export default function Register({
         }
         
         onRegister(newUser)
-        autoLogin(newUser)
         navigate('/')
         
     }
