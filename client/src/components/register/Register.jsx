@@ -1,6 +1,8 @@
 
 import { useNavigate } from 'react-router';
 import useForm from '../../hooks/useForm';
+import { useContext } from 'react';
+import UserContext from '../../contexts/userContext';
 
 
 const initialValues = {
@@ -9,11 +11,9 @@ const initialValues = {
     rePass : ""
 }
 
-export default function Register({
-    onRegister,
-}) {
+export default function Register() {
     const navigate = useNavigate()
-
+    const { onRegisterHandler} = useContext(UserContext)
     const {
         data,
         formAction ,
@@ -38,7 +38,7 @@ export default function Register({
             password : data.password
         }
         
-        onRegister(newUser)
+        onRegisterHandler(newUser)
         navigate('/')
         
     }
