@@ -13,7 +13,9 @@ const initialValues = {
 
 export default function Register() {
     const navigate = useNavigate()
+
     const { onRegisterHandler} = useContext(UserContext)
+    
     const {
         data,
         formAction ,

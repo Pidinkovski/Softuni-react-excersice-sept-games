@@ -1,38 +1,36 @@
-import { useState } from "react"
 import { useNavigate } from "react-router"
+import { useContext } from "react"
+
+import useForm from "../../hooks/useForm"
+import UserContext from "../../contexts/userContext"
+
 
 const initialValues = {
     email : '',
     password : ''
 }
-export default function Login({
-    onLogin,
-    registeredUsers
-}) {
+export default function Login() {
     const navigate = useNavigate()
-    const [currentData , setCurrentData] = useState(initialValues)
-     function onChangeHandler(e){
-        setCurrentData(state => ({
-            ...state,
-            [e.target.name] : e.target.value
-        }))
-    }
 
-    function loginHandler() {
+    const {onLoginHandler} = useContext(UserContext)
+
+    const {
+        data : currentData,
+        formAction,
+        dataSetterHandler
+    } = useForm(onLogin , initialValues)
+
+    function onLogin() {
         if(!currentData.email || !currentData.password) {
             return alert('All the field are required')
         }
-        const user = registeredUsers.find(user => user.email === currentData.email)
 
-        if(!user) {
-            return alert('Invalid email or password')
+        const currentUser = {
+            email : currentData.email,
+            password : currentData.password
         }
 
-        if(user && user.password !== currentData.password) {
-            return alert('Invalid name or password')
-        }
-        const logedUser = {email :currentData.email}
-        onLogin(logedUser)
+        onLoginHandler(currentUser)
         navigate('/')
         
 
@@ -40,7 +38,7 @@ export default function Login({
     return (
         <section id="login-page">
 
-            <form id="login" action={loginHandler}>
+            <form id="login" action={formAction}>
                 <div className="container">
                     <h1>Login</h1>
                     <label htmlFor="email">Email</label>
@@ -48,7 +46,7 @@ export default function Login({
                         type="email" 
                         id="email" 
                         name="email"
-                        onChange={onChangeHandler}
+                        onChange={dataSetterHandler}
                         value={currentData.email}
                         placeholder="Your Email"
                      />
@@ -58,7 +56,7 @@ export default function Login({
                         type="password" 
                         id="login-password" 
                         name="password" 
-                        onChange={onChangeHandler}
+                        onChange={dataSetterHandler}
                         value = {currentData.password}
                         placeholder="Password"
                      />

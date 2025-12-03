@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router"
-import { useContext, useState } from "react"
+import { useState } from "react"
 
 import Header from "./components/header/Header"
 import Footer from "./components/footer/Footer"
@@ -11,20 +11,27 @@ import Register from "./components/register/Register"
 import Login from "./components/login/Login"
 import Logout from "./components/logout/Logout"
 import Edit from "./components/edit/Edit"
-import requester from "./utils/requester"
 import UserContext from "./contexts/userContext"
+import useRequest from "./hooks/useRequest"
 
 
 function App() {
   const [user , setUser] = useState({})
+  const { request } = useRequest()
+
   async function onRegisterHandler({email , password}) {
+
+
     const newUser = {email , password}
-      const result = await requester('http://localhost:3030/users/register' , 'POST' , newUser)
+      const result = await request('http://localhost:3030/users/register' , 'POST' , newUser)
+      console.log(result);
+      
       setUser(result)
   }
 
-  function onLoginHandler({email}) {
-    setUser({email})
+  async function onLoginHandler({email , password}) {
+     const result = await request('http://localhost:3030/users/login', 'POST' , {email , password})
+     setUser(result)
   }
 
   function onLogout() {
@@ -49,7 +56,7 @@ function App() {
       <Route path="/games/:id/edit" element={<Edit />} />
       <Route path="/create" element={<Create/>} />
       <Route path="/register" element={<Register/>} />
-      <Route path="/login" element={<Login onLogin = {onLoginHandler}/>} />
+      <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout onLogout={onLogout} />} />
     </Routes>
 
