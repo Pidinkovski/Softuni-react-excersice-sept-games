@@ -35,7 +35,7 @@ function App() {
   }
 
   async function onLogout(currentUser) {
-    await request('http://localhost:3030/users/logout','GET', {} , currentUser)
+    await request('http://localhost:3030/users/logout','GET', {} , {accessToken : currentUser.accessToken})
     setUser(null)
   }
   const contextValues = {

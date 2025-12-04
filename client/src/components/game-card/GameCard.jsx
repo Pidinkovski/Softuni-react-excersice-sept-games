@@ -4,7 +4,7 @@ export default function GameCard({
     title,
     genre,
     imageUrl, 
-    id,
+    _id,
 
 }) {
     return (
@@ -13,7 +13,7 @@ export default function GameCard({
                 <div className="details-overlay">
                     <p className="name">{title}</p>
                     <p className="genre">{genre}</p>
-                    <Link to={`/games/${id}/details`} className="details-button">Details</Link>
+                    <Link to={`/games/${_id}/details`} className="details-button">Details</Link>
                 </div>
             </div>
 

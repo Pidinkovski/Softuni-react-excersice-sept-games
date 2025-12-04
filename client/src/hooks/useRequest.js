@@ -1,9 +1,13 @@
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../contexts/userContext";
+
 
 
 export default function useRequest() {
 
+    const {isAuthenticated , user} = useContext(UserContext)
 
-    async function request(url, method = 'GET', data , user) {
+    const  request = async(url, method = 'GET', data , config = {}) =>{
 
         const options = {
             method,
@@ -14,10 +18,10 @@ export default function useRequest() {
             options.headers['Content-Type'] = 'application/json';
             options.body = JSON.stringify(data);
         }
-        if(user) {
+        if(config.accessToken || isAuthenticated) {
             options.headers = {
                 ...options.headers,
-                ['X-Authorization'] : user.accessToken
+                ['X-Authorization'] : config.accessToken || user.accessToken
             }
         }
         const response = await fetch(url, options);
@@ -32,5 +36,5 @@ export default function useRequest() {
 
         return response.json();
     }
-    return { request}
+    return { request }
 }
