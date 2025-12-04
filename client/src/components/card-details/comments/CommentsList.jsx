@@ -1,18 +1,20 @@
 import { useEffect , useState } from "react";
-import requester from "../../../utils/requester.js";
 import { useParams } from "react-router";
+import useRequest from "../../../hooks/useRequest";
 
-export default function CommentsList({
-    refresh
-}) {
+
+export default function CommentsList() {
     const {id} = useParams()
     const [comments , setComments] = useState([]);
+    const {request} = useRequest()
 
     useEffect(() => {
         async function getComments() {
             try{
-            const allcoments = await requester(`http://localhost:3030/jsonstore/games/${id}/comments`);
-            setComments(allcoments ? Object.values(allcoments) : [])
+            const allcoments = await request(`http://localhost:3030/data/comments?where=gameId%3D%22${id}%22&load=author%3D_ownerId%3Ausers`);
+            console.log(allcoments);
+            
+            setComments(allcoments ? allcoments : [])
             }catch(err) {
                 alert(err.message)
             }
@@ -20,14 +22,14 @@ export default function CommentsList({
             
         }
         getComments()
-    } ,[id , refresh])
+    } ,[id ])
     return (
 
         <div className="details-comments">
             <h2>Comments:</h2>
             <ul>
                {comments.map(coment => <li key={coment._id}className="comment">
-                    <p>{coment.email}: {coment.context}!</p>
+                    <p>{coment.author?.email}: {coment.comment}!</p>
                 </li>)}
                 {comments.length === 0 &&  <p className="no-comment">No comments.</p>} 
             </ul>

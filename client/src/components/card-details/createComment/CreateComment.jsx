@@ -1,15 +1,15 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
-import requester from "../../../utils/requester.js"
+import UserContext from "../../../contexts/userContext.js"
+import useRequest from "../../../hooks/useRequest.js"
 
-export default function CreateComment({
-    user,
-    forceRef
-}) {
+export default function CreateComment() {
     const navigate = useNavigate()
     const {id} = useParams()
-    const [comment , setComment] = useState({})
+    const [coment , setComment] = useState({})
+    const {user} = useContext(UserContext)
+    const {request} = useRequest()
 
     function onChangeData(e) {
         e.preventDefault()
@@ -21,16 +21,18 @@ export default function CreateComment({
 
     async function onSubmitComment() {
 
-        if(comment.comment.length < 5) {
+        if(coment.comment.length < 5) {
             return alert('Comment should be at least 5 characters long')
         }
         const currentComment = {
-            email : user.email,
-            context : comment.comment
+            gameId : id,
+            comment : coment.comment
         }
+        console.log(currentComment);
+        
         try {
-            await requester(`http://localhost:3030/jsonstore/games/${id}/comments`,'POST', currentComment);
-             forceRef()
+            await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
+
         }catch(err) {
             alert(err.message)
         }
@@ -43,7 +45,7 @@ export default function CreateComment({
                         name="comment" 
                         placeholder="Comment......"
                         onChange={onChangeData}
-                        value={comment.comment}
+                        value={coment.comment}
                     ></textarea>
                     <input 
                         className="btn submit" 
