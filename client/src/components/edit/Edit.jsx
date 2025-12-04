@@ -1,127 +1,129 @@
-import { useEffect, useState } from "react"
+import { useContext , useEffect } from "react"
 import { useNavigate, useParams } from "react-router"
-import requester from "../../utils/requester.js"
+import useForm from "../../hooks/useForm.js"
+import useRequest from "../../hooks/useRequest.js"
+import UserContext from "../../contexts/userContext.js"
+import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 
 const initialValues = {
-    title : '',
-    genre : '',
-    players : '',
-    date : '',
-    imageUrl : '',
-    summary : ''
+    title: '',
+    genre: '',
+    players: '',
+    date: '',
+    imageUrl: '',
+    summary: ''
 }
 export default function Edit() {
     const navigate = useNavigate()
-    const {id} = useParams()
-    const [data , setData] = useState(initialValues)
+    const { id } = useParams()
+    const { request } = useRequest()
+    const { user } = useContext(UserContext)
 
-    function onDataChangeHandler(e) {
-        setData((state) => ({
-            ...state,
-            [e.target.name] : e.target.value
-        }))
-    }
+    const {
+        dataSetterHandler,
+        formAction,
+        data,
+        setData
+    } = useForm(onEditHandler, initialValues)
+
+    const { currentData } = useFetchOnMount(`http://localhost:3030/data/games/${id}`)
 
     useEffect(() => {
-        async function getData() {
-            const currentData = await requester(`http://localhost:3030/jsonstore/games/${id}`)
+        if (currentData) {
             setData(currentData);
         }
-        getData()
-    } ,[id])
+    }, [currentData]);
 
-    async function onEditHandler() {
-        if(!data.date || !data.genre || !data.imageUrl || !data.players || !data.summary || !data.title) {
+
+    async function onEditHandler(data) {
+        if (!data.date || !data.genre || !data.imageUrl || !data.players || !data.summary || !data.title) {
             return alert('All fields are required')
         }
         try {
-            await requester(`http://localhost:3030/jsonstore/games/${id}`, 'PUT' , data);
+            await request(`http://localhost:3030/data/games/${id}`, 'PUT', data, user);
             navigate(`/games/${id}/details`)
-        } catch(err) {
+        } catch (err) {
             alert(err.message)
         }
-        
-
-
     }
     return (
-                <section id="edit-page">
-            <form id="add-new-game" action={onEditHandler}>
+        <section id="edit-page">
+            <form id="add-new-game" action={formAction}>
                 <div className="container">
 
                     <h1>Edit Game</h1>
 
                     <div className="form-group-half">
                         <label htmlFor="gameName">Game Name:</label>
-                        <input 
-                            type="text" 
-                            id="gameName" 
+                        <input
+                            type="text"
+                            id="gameName"
                             name="title"
                             value={data.title}
-                            onChange={onDataChangeHandler}
+                            onChange={dataSetterHandler}
                             placeholder="Enter game title..."
                         />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="genre">Genre:</label>
-                        <input 
-                            type="text" 
-                            id="genre" 
+                        <input
+                            type="text"
+                            id="genre"
                             name="genre"
                             value={data.genre}
-                            onChange={onDataChangeHandler}
+                            onChange={dataSetterHandler}
                             placeholder="Enter game genre..."
-                        /> 
+                        />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="activePlayers">Active Players:</label>
-                        <input 
-                            type="number" 
-                            id="activePlayers" 
+                        <input
+                            type="number"
+                            id="activePlayers"
                             name="players"
                             value={data.players}
-                            onChange={onDataChangeHandler}
-                            min="0" 
-                            placeholder="0"/>
+                            onChange={dataSetterHandler}
+                            min="0"
+                            placeholder="0" />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="releaseDate">Release Date:</label>
                         <input
-                            type="date" 
+                            type="date"
                             id="releaseDate"
                             value={data.date}
-                            onChange={onDataChangeHandler}
+                            onChange={dataSetterHandler}
                             name="date"
-                         />
+                        />
                     </div>
 
                     <div className="form-group-full">
                         <label htmlFor="imageUrl">Image URL:</label>
-                        <input 
-                            type="text" 
-                            id="imageUrl" 
+                        <input
+                            type="text"
+                            id="imageUrl"
                             name="imageUrl"
                             value={data.imageUrl}
-                            onChange={onDataChangeHandler}
+                            onChange={dataSetterHandler}
                             placeholder="Enter image URL..."
                         />
                     </div>
 
                     <div className="form-group-full">
                         <label htmlFor="summary">Summary:</label>
-                        <textarea 
-                            name="summary" 
-                            id="summary" 
+                        <textarea
+                            name="summary"
+                            id="summary"
                             rows="5"
                             value={data.summary}
-                            onChange={onDataChangeHandler}
+                            onChange={dataSetterHandler}
                             placeholder="Write a brief summary..."></textarea>
                     </div>
 
-                    <input className="btn submit" type="submit" value="EDIT GAME"/>
+                    <input className="btn submit" type="submit" value="EDIT GAME" />
                 </div>
             </form>
         </section>
