@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 
 import CreateComment from "./createComment/CreateComment.jsx"
@@ -26,7 +26,7 @@ export default function CardDetails() {
 
      async function deleteClickHandler(e) {
         e.preventDefault()
-        const result = confirm(`Would  you like to delete ${game.title}`);
+        const result = confirm(`Would  you like to delete ${game?.title}`);
 
         if(!result) {
             return;
@@ -47,7 +47,7 @@ export default function CardDetails() {
             <div className="info-section">
 
                 <div className="header-and-image">
-                    <img className="game-img" src={game?.imageUrl} alt={game?.title} />
+                    <img className="game-img" src={game.imageUrl || null} alt={game?.title} />
 
                     <div className="meta-info">
                         <h1 className="game-name">{game?.title}</h1>
