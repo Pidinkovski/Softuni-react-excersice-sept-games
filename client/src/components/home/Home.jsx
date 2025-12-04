@@ -1,21 +1,9 @@
-import { useEffect, useState } from "react"
-
 import GameCard from "../game-card/GameCard"
-import objectIdTranform from '../../utils/objectIdTransform.js'
-import requester from "../../utils/requester.js"
+import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 
 export default function Home() {
 
-    const [lastGames,setLastGames] = useState([])
-
-    useEffect(  () => {
-        async function fetchData() {
-        const data = await requester('http://localhost:3030/jsonstore/games');
-            const dataArray = objectIdTranform(data).sort((a , b ) => b._createdOn - a._createdOn)
-            .slice(0,3) ;
-            setLastGames(dataArray)}
-            fetchData()
-        } , [])
+    const {currentData : lastGames} = useFetchOnMount('http://localhost:3030/data/games?sortBy=_createdOn%20desc&pageSize=3' , [])
 
     return (
         <section id="welcome-world">
@@ -31,7 +19,7 @@ export default function Home() {
                 <div id="latest-wrap">
                     <div className="home-container">
                         { lastGames.length > 0 
-                        ? lastGames.map(game => <GameCard key={game.id}{...game}/>)
+                        ? lastGames.map(game => <GameCard key={game._id}{...game}/>)
                         : <p className="no-articles">No games yet</p>}
                     </div>
                 </div>

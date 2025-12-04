@@ -6,6 +6,7 @@ import CommentsList from "./comments/CommentsList.jsx"
 import useRequest from "../../hooks/useRequest.js"
 import UserContext from "../../contexts/userContext.js"
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
+import IsOwner from "../../utils/isOwnerUtil.js"
 
 export default function CardDetails() {
     const { id } = useParams()
@@ -22,6 +23,9 @@ export default function CardDetails() {
         players : 0,
         summary : "",
     })
+
+  
+        const isAuthor = IsOwner(user , game)
     
 
      async function deleteClickHandler(e) {
@@ -76,17 +80,18 @@ export default function CardDetails() {
                 </div>
 
 
-                {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
+                {isAuthor && 
                 <div className="buttons">
                     <Link to={`/games/${id}/edit`} className="button">Edit</Link>
                     {/* <Link to={`/games/${id}/delete`} className="button">Delete</Link> */}
                     <button onClick={deleteClickHandler} className="button">Delete</button>
-                </div>
+                </div>}
+                
 
             <CommentsList  />
 
             </div>
-            {user &&  <CreateComment  user={user}/>}
+            {!isAuthor && user && <CreateComment  user={user}/>}
            
         </section>
 
