@@ -19,7 +19,36 @@ const UserContext = createContext({
 export function UserProvider({
     children
 }) {
-    const [user, setUser] = useState(null)
+
+    const [user, setUser] = useState(() => {
+        const currentUser = localStorage.getItem('auth')
+        if(!currentUser) {
+            return null
+        }
+        
+        try {
+            return JSON.parse(currentUser)
+        }catch {
+            return null
+        }
+    })
+
+    const setUserData = (user) => {
+        if (user) {
+            const userToSet = {
+                email : user.email,
+                accessToken : user.accessToken,
+                _id : user._id,
+                _createdOn : user._createdOn
+            }
+            localStorage.setItem('auth', JSON.stringify(userToSet))
+            
+        } else {
+            localStorage.removeItem('auth')
+        }
+        setUser(user)
+
+    }
     const { request } = useRequest()
 
     async function onRegisterHandler({ email, password }) {
@@ -28,16 +57,17 @@ export function UserProvider({
         const newUser = { email, password }
         const result = await request('http://localhost:3030/users/register', 'POST', newUser)
 
-        setUser(result)
+        setUserData(result)
     }
 
     async function onLoginHandler({ email, password }) {
         const result = await request('http://localhost:3030/users/login', 'POST', { email, password })
-        setUser(result)
+        setUserData(result)
     }
 
     async function onLogout(currentUser) {
         await request('http://localhost:3030/users/logout', 'GET', {}, { accessToken: currentUser.accessToken })
+        localStorage.clear()
         setUser(null)
     }
     const contextValues = {
@@ -49,7 +79,7 @@ export function UserProvider({
     }
 
     return (
-        <UserContext.Provider value={contextValues }>
+        <UserContext.Provider value={contextValues}>
             {children}
         </UserContext.Provider>
     )
