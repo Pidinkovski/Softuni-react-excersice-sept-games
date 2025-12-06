@@ -1,10 +1,9 @@
-import { useContext } from "react"
+import { useContext , useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 
 import CreateComment from "./createComment/CreateComment.jsx"
 import CommentsList from "./comments/CommentsList.jsx"
 import useRequest from "../../hooks/useRequest.js"
-
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 import IsOwner from "../../utils/isOwnerUtil.js"
 import UserContext from "../../contexts/UserContext.jsx"
@@ -16,6 +15,10 @@ export default function CardDetails() {
     const navigate = useNavigate()
     const {request} = useRequest()
     const {user} = useContext(UserContext)
+    const [refrest ,setRefresh] = useState(false)
+    const setRefreshHandler = () => {
+        setRefresh(state => !state)
+    }
 
     const {currentData : game} = useFetchOnMount(`http://localhost:3030/data/games/${id}` , {
         title : "",
@@ -90,10 +93,10 @@ export default function CardDetails() {
                 </div>}
                 
 
-            <CommentsList  />
+            <CommentsList refresh = {refrest} />
 
             </div>
-            {!isAuthor && user && <CreateComment  user={user}/>}
+            {!isAuthor && user && <CreateComment refresher= {setRefreshHandler} />}
            
         </section>
 

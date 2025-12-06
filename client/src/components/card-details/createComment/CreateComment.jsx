@@ -1,5 +1,5 @@
-import { useContext, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useContext } from "react"
+import {  useParams } from "react-router"
 
 
 import useRequest from "../../../hooks/useRequest.js"
@@ -7,13 +7,15 @@ import useForm from "../../../hooks/useForm.js"
 import UserContext from "../../../contexts/UserContext.jsx"
 
 
-export default function CreateComment() {
+export default function CreateComment({
+    refresher
+}) {
     const {id} = useParams()
     const {user} = useContext(UserContext)
     const {request} = useRequest()
 
 
-    const {data , formAction ,dataSetterHandler, setData } = useForm(onSubmitComment , {})
+    const {data , formAction ,dataSetterHandler } = useForm(onSubmitComment , {})
 
     async function onSubmitComment() {
 
@@ -25,8 +27,8 @@ export default function CreateComment() {
             comment : data.comment
         }
         try {
-            const cas = await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
-            setData(cas)
+            await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
+            refresher()
         }catch(err) {
             alert(err.message)
         }

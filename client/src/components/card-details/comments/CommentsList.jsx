@@ -1,16 +1,19 @@
 import { useEffect , useState } from "react";
 import { useParams } from "react-router";
+
 import useRequest from "../../../hooks/useRequest";
 
 
-export default function CommentsList() {
+export default function CommentsList({
+    refresh
+}) {
     const {id} = useParams()
     const [comments , setComments] = useState([]);
     const {request} = useRequest()
 
     useEffect(() => {
         async function getComments() {
-            
+
             try{
             const allcoments = await request(`http://localhost:3030/data/comments?where=gameId%3D%22${id}%22&load=author%3D_ownerId%3Ausers`);
             console.log(allcoments);
@@ -23,7 +26,7 @@ export default function CommentsList() {
             
         }
         getComments()
-    } ,[id ])
+    } ,[id, refresh ])
     return (
 
         <div className="details-comments">
