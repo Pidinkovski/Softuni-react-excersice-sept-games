@@ -1,5 +1,4 @@
-import { useContext, useState , useEffect} from "react"
-import UserContext from "../contexts/userContext"
+import { useState , useEffect} from "react"
 import useRequest from "./useRequest"
 
 export default function useFetchOnMount(url, initialState ) {

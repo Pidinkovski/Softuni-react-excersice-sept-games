@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router"
 
 import UserContext from "../../../contexts/userContext.js"
 import useRequest from "../../../hooks/useRequest.js"
+import useForm from "../../../hooks/useForm.js"
 
 export default function CreateComment() {
-    const navigate = useNavigate()
     const {id} = useParams()
     const [coment , setComment] = useState({})
     const {user} = useContext(UserContext)
@@ -19,6 +19,8 @@ export default function CreateComment() {
         }))
     }
 
+    const {data , formAction ,dataSetterHandler } = useForm(onSubmitComment , {})
+
     async function onSubmitComment() {
 
         if(coment.comment.length < 5) {
@@ -28,7 +30,6 @@ export default function CreateComment() {
             gameId : id,
             comment : coment.comment
         }
-        console.log(currentComment);
         
         try {
             await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
@@ -40,11 +41,11 @@ export default function CreateComment() {
     return (
         <article className="create-comment">
                 <label>Add new comment:</label>
-                <form className="form" action={onSubmitComment}>
+                <form className="form" action={formAction}>
                     <textarea 
                         name="comment" 
                         placeholder="Comment......"
-                        onChange={onChangeData}
+                        onChange={dataSetterHandler}
                         value={coment.comment}
                     ></textarea>
                     <input 
