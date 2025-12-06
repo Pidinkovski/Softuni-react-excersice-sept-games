@@ -12,7 +12,7 @@ import Login from "./components/login/Login"
 import Logout from "./components/logout/Logout"
 import Edit from "./components/edit/Edit"
 
-import { UserProvider } from "./contexts/userContext"
+import { UserProvider } from "./contexts/UserContext"
 
 
 function App() {

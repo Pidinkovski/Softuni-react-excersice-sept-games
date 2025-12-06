@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../contexts/userContext";
+import UserContext from "../contexts/UserContext";
+
 
 
 

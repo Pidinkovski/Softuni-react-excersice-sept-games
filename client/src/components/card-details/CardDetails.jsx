@@ -7,7 +7,8 @@ import useRequest from "../../hooks/useRequest.js"
 
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 import IsOwner from "../../utils/isOwnerUtil.js"
-import UserContext from "../../contexts/userContext.jsx"
+import UserContext from "../../contexts/UserContext.jsx"
+
 
 export default function CardDetails() {
     const { id } = useParams()

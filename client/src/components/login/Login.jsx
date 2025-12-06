@@ -2,7 +2,8 @@ import { useNavigate } from "react-router"
 import { useContext } from "react"
 
 import useForm from "../../hooks/useForm"
-import UserContext from "../../contexts/userContext.jsx"
+import UserContext from "../../contexts/UserContext"
+
 
 
 const initialValues = {

@@ -2,8 +2,9 @@ import { useContext , useEffect } from "react"
 import { useNavigate, useParams } from "react-router"
 import useForm from "../../hooks/useForm.js"
 import useRequest from "../../hooks/useRequest.js"
-import UserContext from "../../contexts/userContext.jsx"
+
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
+import UserContext from "../../contexts/UserContext.jsx"
 
 const initialValues = {
     title: '',
@@ -16,7 +17,7 @@ const initialValues = {
 export default function Edit() {
     const navigate = useNavigate()
     const { id } = useParams()
-    const { request } = useRequest()
+    const { request } = useRequest(UserContext)
     const { user } = useContext(UserContext)
 
     const {

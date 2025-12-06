@@ -42,11 +42,11 @@ export function UserProvider({
                 _createdOn : user._createdOn
             }
             localStorage.setItem('auth', JSON.stringify(userToSet))
+            setUser(userToSet)
             
         } else {
             localStorage.removeItem('auth')
         }
-        setUser(user)
 
     }
     const { request } = useRequest()
