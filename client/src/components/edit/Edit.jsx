@@ -2,7 +2,7 @@ import { useContext , useEffect } from "react"
 import { useNavigate, useParams } from "react-router"
 import useForm from "../../hooks/useForm.js"
 import useRequest from "../../hooks/useRequest.js"
-import UserContext from "../../contexts/userContext.js"
+import UserContext from "../../contexts/userContext.jsx"
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 
 const initialValues = {

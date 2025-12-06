@@ -11,49 +11,20 @@ import Register from "./components/register/Register"
 import Login from "./components/login/Login"
 import Logout from "./components/logout/Logout"
 import Edit from "./components/edit/Edit"
-import UserContext from "./contexts/userContext"
-import useRequest from "./hooks/useRequest"
+
+import { UserProvider } from "./contexts/userContext"
 
 
 function App() {
-  const [user , setUser] = useState(null)
-  const { request } = useRequest()
-
-  async function onRegisterHandler({email , password}) {
-
-
-    const newUser = {email , password}
-      const result = await request('http://localhost:3030/users/register' , 'POST' , newUser)
-      console.log(result);
-      
-      setUser(result)
-  }
-
-  async function onLoginHandler({email , password}) {
-     const result = await request('http://localhost:3030/users/login', 'POST' , {email , password})
-     setUser(result)
-  }
-
-  async function onLogout(currentUser) {
-    await request('http://localhost:3030/users/logout','GET', {} , {accessToken : currentUser.accessToken})
-    setUser(null)
-  }
-  const contextValues = {
-    user ,
-    onRegisterHandler,
-    onLoginHandler ,
-    onLogout,
-    isAuthenticated : !!user?.accessToken,
-  }
 
   return (
-    <UserContext.Provider value={contextValues}>
+    <UserProvider >
     <Header/>
 
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/games" element={<Catalog/>} />
-      <Route path="/games/:id/details" element={<CardDetails user={user}/>} />
+      <Route path="/games/:id/details" element={<CardDetails/>} />
       <Route path="/games/:id/edit" element={<Edit />} />
       <Route path="/create" element={<Create/>} />
       <Route path="/register" element={<Register/>} />
@@ -63,7 +34,7 @@ function App() {
 
     <Footer />
 
-    </UserContext.Provider>
+    </UserProvider>
   )
 }
 

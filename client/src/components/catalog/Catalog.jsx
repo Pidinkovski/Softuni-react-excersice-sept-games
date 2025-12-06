@@ -6,7 +6,6 @@ import useFetchOnMount from "../../hooks/useFetchOnMount";
 export default function Catalog() {
 
     const { currentData : games } = useFetchOnMount("http://localhost:3030/data/games" , [])
-    console.log(games);
     
     return (
 

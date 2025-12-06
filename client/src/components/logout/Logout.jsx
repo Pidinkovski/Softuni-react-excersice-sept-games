@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Navigate } from "react-router";
-import UserContext from "../../contexts/userContext";
+import UserContext from "../../contexts/userContext.jsx"
 
 export default function Logout() {
 

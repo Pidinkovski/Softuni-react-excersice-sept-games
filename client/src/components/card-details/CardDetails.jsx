@@ -4,9 +4,10 @@ import { Link, useNavigate, useParams } from "react-router"
 import CreateComment from "./createComment/CreateComment.jsx"
 import CommentsList from "./comments/CommentsList.jsx"
 import useRequest from "../../hooks/useRequest.js"
-import UserContext from "../../contexts/userContext.js"
+
 import useFetchOnMount from "../../hooks/useFetchOnMount.js"
 import IsOwner from "../../utils/isOwnerUtil.js"
+import UserContext from "../../contexts/userContext.jsx"
 
 export default function CardDetails() {
     const { id } = useParams()

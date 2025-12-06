@@ -1,9 +1,10 @@
 import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
-import UserContext from "../../../contexts/userContext.js"
+
 import useRequest from "../../../hooks/useRequest.js"
 import useForm from "../../../hooks/useForm.js"
+import UserContext from "../../../contexts/userContext.jsx"
 
 export default function CreateComment() {
     const {id} = useParams()
@@ -11,13 +12,6 @@ export default function CreateComment() {
     const {user} = useContext(UserContext)
     const {request} = useRequest()
 
-    function onChangeData(e) {
-        e.preventDefault()
-        setComment(state => ({
-            ...state,
-            [e.target.name] : e.target.value
-        }))
-    }
 
     const {data , formAction ,dataSetterHandler } = useForm(onSubmitComment , {})
 
