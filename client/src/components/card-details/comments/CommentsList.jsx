@@ -10,6 +10,7 @@ export default function CommentsList() {
 
     useEffect(() => {
         async function getComments() {
+            
             try{
             const allcoments = await request(`http://localhost:3030/data/comments?where=gameId%3D%22${id}%22&load=author%3D_ownerId%3Ausers`);
             console.log(allcoments);

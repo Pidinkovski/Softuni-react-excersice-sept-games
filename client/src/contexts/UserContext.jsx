@@ -61,12 +61,17 @@ export function UserProvider({
     }
 
     async function onLoginHandler({ email, password }) {
-        const result = await request('http://localhost:3030/users/login', 'POST', { email, password })
-        setUserData(result)
+        try{
+            const result = await request('http://localhost:3030/users/login', 'POST', { email, password })
+            setUserData(result)
+        } catch (err) {
+            alert(err.message)
+        }
+        
     }
 
     async function onLogout(currentUser) {
-        await request('http://localhost:3030/users/logout', 'GET', {}, { accessToken: currentUser.accessToken })
+        await request('http://localhost:3030/users/logout', 'GET', null, {accessToken : currentUser.accessToken })
         localStorage.clear()
         setUser(null)
     }

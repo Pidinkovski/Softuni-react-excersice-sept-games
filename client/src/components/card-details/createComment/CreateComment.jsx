@@ -8,26 +8,24 @@ import UserContext from "../../../contexts/userContext.jsx"
 
 export default function CreateComment() {
     const {id} = useParams()
-    const [coment , setComment] = useState({})
     const {user} = useContext(UserContext)
     const {request} = useRequest()
 
 
-    const {data , formAction ,dataSetterHandler } = useForm(onSubmitComment , {})
+    const {data , formAction ,dataSetterHandler, setData } = useForm(onSubmitComment , {})
 
     async function onSubmitComment() {
 
-        if(coment.comment.length < 5) {
+        if(data.comment?.length < 5) {
             return alert('Comment should be at least 5 characters long')
         }
         const currentComment = {
             gameId : id,
-            comment : coment.comment
+            comment : data.comment
         }
-        
         try {
-            await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
-
+            const cas = await request(`http://localhost:3030/data/comments`,'POST', currentComment , user);
+            setData(cas)
         }catch(err) {
             alert(err.message)
         }
@@ -40,7 +38,7 @@ export default function CreateComment() {
                         name="comment" 
                         placeholder="Comment......"
                         onChange={dataSetterHandler}
-                        value={coment.comment}
+                        value={data.comment}
                     ></textarea>
                     <input 
                         className="btn submit" 
