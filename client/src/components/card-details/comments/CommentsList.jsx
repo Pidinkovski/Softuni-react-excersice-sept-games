@@ -16,7 +16,6 @@ export default function CommentsList({
 
             try{
             const allcoments = await request(`http://localhost:3030/data/comments?where=gameId%3D%22${id}%22&load=author%3D_ownerId%3Ausers`);
-            console.log(allcoments);
             
             setComments(allcoments ? allcoments : [])
             }catch(err) {
