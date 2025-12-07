@@ -70,9 +70,9 @@ export function UserProvider({
         
     }
 
-    async function onLogout(currentUser) {
-        await request('http://localhost:3030/users/logout', 'GET', null, {accessToken : currentUser.accessToken })
-        localStorage.clear()
+    async function onLogout() {
+        await request('http://localhost:3030/users/logout', 'GET', null , {accessToken : user.accessToken})
+        localStorage.removeItem('auth')
         setUser(null)
     }
     const contextValues = {

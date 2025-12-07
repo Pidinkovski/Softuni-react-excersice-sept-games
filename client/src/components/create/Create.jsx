@@ -28,7 +28,7 @@ export default function Create() {
         data.players = Number(data.players)
 
         try {
-            const response = await request('http://localhost:3030/data/games', 'POST', data , user);
+            const response = await request('http://localhost:3030/data/games', 'POST', data , {accessToken : user.accessToken});
             
             navigate('/games')
 
